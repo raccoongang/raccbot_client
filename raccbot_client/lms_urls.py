@@ -1,5 +1,5 @@
 from django.conf.urls import include, patterns, url
-from telegram_bot import api
+from raccbot_client import api
 
 
 urlpatterns = patterns(
