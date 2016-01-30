@@ -41,12 +41,11 @@ class CourseListMixin(object):
     paginate_by_param = 'page_size'
     serializer_class = serializers.CourseSerializer
     # Using EDX_API_KEY for access to this api
-    authentication_classes = (SessionAuthenticationAllowInactiveUser,
-                              OAuth2AuthenticationAllowInactiveUser)
-    permission_classes = ApiKeyHeaderPermissionIsAuthenticated,
+    authentication_classes = []
+    permission_classes = []
 
     def get_queryset(self):
-        course_ids = self.request.QUERY_PARAMS.get('course_id', None)
+        course_ids = self.request.query_params.get('course_id', None)
 
         results = []
         if course_ids:
