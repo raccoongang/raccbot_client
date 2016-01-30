@@ -1,14 +1,14 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class TeleramReg(models.Model):
     '''
     '''
 
-    username = models.CharField(max_length=50, unique=True)
-    telname = models.CharField(max_length=50, unique=True)
+    user = models.ForeignKey(User)
+    tel_name = models.CharField(max_length=50, unique=True, blank=True)
     token = models.CharField(max_length=50, blank=True, null=True, db_index=True)
-    verified = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False, db_index=True)
 
     def __unicode__(self):
-        return self.username
+        return self.user.username

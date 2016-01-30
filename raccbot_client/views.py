@@ -22,28 +22,26 @@ class GenerateToken(View):
 
 class Verifying(View):
 
-    def post(self, request):
-        token = request.POST.get('token')
-        tel_name = request.POST.get('tel_name')
+    def get(self, request):
+        token = request.GET.get('token')
+        tel_name = request.GET.get('tel_name')
         user = TeleramReg.objects.filter(token=token).first()
         if user:
-            user.update(
-                token='null',
-                tel_name=tel_name,
-                verified=True
-            )
+            user.token = None
+            user.tel_name = tel_name
+            user.verified = True
             user.save()
-            return JsonResponse(status_code=200)
+            return JsonResponse({'foo': 'bar1'})
         else:
-            return JsonResponse(status_code=401)
+            return JsonResponse({'foo': 'bar2'})
 
 
 class EnrollmentCourses(View):
-    def post(self, request):
-        telname = request.POST.get('telname')
-        user = TeleramReg.objects.filter(telname=telname).first()
+    def get(self, request):
+        tel_name = request.GET.get('tel_name')
+        user = TeleramReg.objects.filter(tel_name=tel_name).first()
         if user:
-            courses = CourseEnrollment.enrollments_for_user(user)
+            courses = CourseEnrollment.enrollments_for_user(user.user)
             return JsonResponse({'courses': courses})
         else:
             return JsonResponse({'courses': 'none'})
