@@ -10,4 +10,5 @@ urlpatterns = patterns(
     url(r'^api/bot/courses/{}'.format(settings.COURSE_KEY_PATTERN), api.CourseDetailView.as_view(), name="course-detail"),
     url(r'^api/bot/generate/$', views.GenerateToken.as_view()),
     url(r'^api/bot/verify/$', views.Verifying.as_view()),
+    url(r'^api/bot/get_enrollments/$', views.EnrollmentCourses.as_view()),
 )

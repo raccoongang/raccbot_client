@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.generic import View
 import hashlib
+from student.models import CourseEnrollment
 
 
 class GenerateToken(View):
@@ -35,3 +36,14 @@ class Verifying(View):
             return JsonResponse(status_code=200)
         else:
             return JsonResponse(status_code=401)
+
+
+class EnrollmentCourses(View):
+    def post(self, request):
+        telname = request.POST.get('telname')
+        user = TeleramReg.objects.filter(telname=telname).first()
+        if user:
+            courses = CourseEnrollment.enrollments_for_user(user)
+            return JsonResponse({'courses': courses})
+        else:
+            return JsonResponse({'courses': 'none'})
