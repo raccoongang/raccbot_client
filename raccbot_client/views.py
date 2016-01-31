@@ -42,6 +42,9 @@ class EnrollmentCourses(View):
         user = TeleramReg.objects.filter(tel_name=tel_name).first()
         if user:
             courses = CourseEnrollment.enrollments_for_user(user.user)
-            return JsonResponse({'courses': courses})
+            serialized = []
+	    for course in courses:
+                serialized.append(dict(course_name=course.course.display_name, course_id=course.course.__str__()))
+            return JsonResponse({'courses': serialized})
         else:
             return JsonResponse({'courses': 'none'})
